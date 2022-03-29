@@ -1,0 +1,64 @@
+<div class="content">
+  <div class="contentItem" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="mat-elevation-z4" fxFlex="50%">
+      <mat-card-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+        <mat-card-title>
+          <span>Calculate your trip cost</span>
+        </mat-card-title>
+
+        <p *ngIf="!subscriptionList"><em>Loading...</em></p>
+
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+          <!-- Subscription input -->
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label for="subscription">Subscription</mat-label>
+              <mat-select formControlName="subscription" class="form-control">
+                <mat-option disabled>Select Subscription</mat-option>
+                <mat-option>Choose Car Type</mat-option>
+                <mat-option *ngFor="let subscription of subscriptionList" [value]="subscription.id">
+                  {{subscription.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Car Type input -->
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label for="carType">Car types</mat-label>
+              <mat-select formControlName="carType" class="form-control">
+                <mat-option disabled>Select Car Type</mat-option>
+                <mat-option>Choose Car Type</mat-option>
+                <mat-option *ngFor="let carType of carTypeList" [value]="carType.id">{{carType.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Duration of your trip -->
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label for="tripDuration">Trip duration</mat-label>
+              <input matInput id="tripDuration" type="number" formControlName="tripDuration">
+            </mat-form-field>
+            <mat-label *ngIf="tripCostPerTime !== 1">{{ ' => Total Trip Cost based on time ' + tripCostPerTime }}
+            </mat-label>
+          </div>
+
+          <!-- Estimated amount of km -->
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label for="estimatedAmoutKm">Estimated amount of km</mat-label>
+              <input matInput id="estimatedAmoutKm" type="number" formControlName="estimatedAmoutKm">
+            </mat-form-field>
+            <mat-label *ngIf="tripCostPerKm !== 1">{{ ' => Total Trip Cost based on distance ' + tripCostPerKm }}
+            </mat-label>
+          </div>
+
+          <button mat-button class="btn btn-primary" type="submit" [disabled]="!form.valid">Calculate</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

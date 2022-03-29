@@ -1,0 +1,10 @@
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-item {
+  max-width: 50%;
+}
