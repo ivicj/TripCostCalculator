@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripCostCalculator.DbContexts;
+using TripCostCalculator.Repository;
 
 namespace TripCostCalculator.Controllers
 {
@@ -8,21 +9,26 @@ namespace TripCostCalculator.Controllers
     [Route("[controller]")]
     public class PricesController : ControllerBase
     {
-        private readonly MainDbContext _mainDbContext;
-        private readonly ILogger<PricesController> _logger;
-
-        public PricesController(ILogger<PricesController> logger, MainDbContext mainDbContext)
+        private readonly ISubscriptionCarTypePriceRepository _repository;
+        
+        public PricesController(ISubscriptionCarTypePriceRepository repository)
         {
-            _logger = logger;
-            _mainDbContext = mainDbContext;
-
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var prices = await _mainDbContext.SubscriptionCarTypePrices.ToListAsync();
-            return Ok(prices);
+
+            try
+            {   
+                var prices = await _repository.GetAll();
+                return Ok(prices);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

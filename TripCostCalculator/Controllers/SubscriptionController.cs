@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TripCostCalculator.DbContexts;
+using TripCostCalculator.Repository;
 
 namespace TripCostCalculator.Controllers
 {
@@ -8,20 +9,17 @@ namespace TripCostCalculator.Controllers
     [Route("[controller]")]
     public class SubscriptionController : ControllerBase
     {
-        private readonly MainDbContext _mainDbContext;
+        private readonly ISubscriptionRepository _repository;
 
-        private readonly ILogger<SubscriptionController> _logger;
-
-        public SubscriptionController(ILogger<SubscriptionController> logger, MainDbContext mainDbContext)
+        public SubscriptionController(ISubscriptionRepository repository)
         {
-            _logger = logger;
-            _mainDbContext = mainDbContext;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var subscriptions = await _mainDbContext.Subscriptions.ToListAsync();
+            var subscriptions = await _repository.GetAll();
             return Ok(subscriptions);
         }
     }

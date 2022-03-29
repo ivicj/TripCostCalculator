@@ -16,7 +16,7 @@
               <mat-label for="subscription">Subscription</mat-label>
               <mat-select formControlName="subscription" class="form-control">
                 <mat-option disabled>Select Subscription</mat-option>
-                <mat-option>Choose Car Type</mat-option>
+                <mat-option>Choose Subscription</mat-option>
                 <mat-option *ngFor="let subscription of subscriptionList" [value]="subscription.id">
                   {{subscription.name}}
                 </mat-option>
