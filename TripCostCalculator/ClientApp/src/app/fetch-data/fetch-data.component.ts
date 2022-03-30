@@ -30,7 +30,7 @@ export class FetchDataComponent implements OnInit{
         this.subscriptionList = result;
       }, error => console.error(error));
     
-    this.service.getCarTypes().subscribe(result => { console.log('rrrr', result);
+    this.service.getCarTypes().subscribe(result => {
         this.carTypeList = result;
       }, error => console.error(error));      
 
